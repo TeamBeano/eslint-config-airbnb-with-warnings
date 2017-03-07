@@ -1,10 +1,9 @@
 {
   "name": "eslint-config-airbnb-with-warnings",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Like the airbnb eslint configuration but with warnings for code style violations",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [
     "eslint",
     "airbnb",
