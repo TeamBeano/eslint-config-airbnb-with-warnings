@@ -1,0 +1,28 @@
+const eslint = require('eslint')
+
+const ERROR = 'error'
+const WARN = 'warn'
+const OFF = 'off'
+
+const ERROR_RULES = ["accessor-pairs","array-callback-return","block-scoped-var","curly","default-case","dot-notation","dot-location","eqeqeq","guard-for-in","no-caller","no-case-declarations","no-div-regex","no-else-return","no-empty-pattern","no-eq-null","no-eval","no-extend-native","no-extra-bind","no-extra-label","no-fallthrough","no-floating-decimal","no-global-assign","no-native-reassign","no-implicit-coercion","no-implicit-globals","no-implied-eval","no-invalid-this","no-iterator","no-labels","no-lone-blocks","no-loop-func","no-magic-numbers","no-multi-spaces","no-multi-str","no-new","no-new-func","no-new-wrappers","no-octal","no-octal-escape","no-proto","no-redeclare","no-restricted-properties","no-return-await","no-script-url","no-self-assign","no-self-compare","no-sequences","no-throw-literal","no-unmodified-loop-condition","no-unused-expressions","no-unused-labels","no-useless-call","no-useless-concat","no-useless-escape","no-useless-return","no-void","no-warning-comments","no-with","prefer-promise-reject-errors","radix","require-await","vars-on-top","wrap-iife","yoda","no-await-in-loop","no-cond-assign","no-constant-condition","no-control-regex","no-debugger","no-dupe-args","no-dupe-keys","no-duplicate-case","no-empty","no-empty-character-class","no-ex-assign","no-extra-boolean-cast","no-extra-semi","no-func-assign","no-inner-declarations","no-invalid-regexp","no-obj-calls","no-prototype-builtins","no-regex-spaces","no-sparse-arrays","no-template-curly-in-string","no-unexpected-multiline","no-unreachable","no-unsafe-finally","no-unsafe-negation","no-negated-in-lhs","use-isnan","valid-typeof","callback-return","global-require","handle-callback-err","no-mixed-requires","no-new-require","no-path-concat","no-process-env","no-process-exit","no-restricted-modules","no-sync","camelcase","capitalized-comments","consistent-this","eol-last","func-name-matching","func-names","func-style","id-blacklist","id-length","id-match","jsx-quotes","key-spacing","line-comment-position","linebreak-style","lines-around-comment","lines-around-directive","max-statements","max-statements-per-line","multiline-ternary","new-cap","new-parens","no-array-constructor","no-bitwise","no-continue","no-inline-comments","no-lonely-if","no-mixed-operators","no-multi-assign","no-negated-condition","no-nested-ternary","no-new-object","no-plusplus","no-restricted-syntax","no-spaced-func","no-tabs","no-ternary","no-trailing-spaces","no-unneeded-ternary","no-whitespace-before-property","one-var","operator-assignment","operator-linebreak","quote-props","quotes","semi","semi-spacing","space-before-blocks","space-before-function-paren","space-in-parens","space-infix-ops","space-unary-ops","spaced-comment","template-tag-spacing","unicode-bom","wrap-regex","init-declarations","no-catch-shadow","no-delete-var","no-label-var","no-restricted-globals","no-shadow","no-shadow-restricted-names","no-undef","no-undef-init","no-undefined","no-unused-vars","no-use-before-define","constructor-super","no-class-assign","no-confusing-arrow","no-const-assign","no-dupe-class-members","no-duplicate-imports","no-new-symbol","no-restricted-imports","no-this-before-super","no-useless-computed-key","no-useless-constructor","no-useless-rename","no-var","object-shorthand","prefer-arrow-callback","prefer-const","prefer-destructuring","prefer-numeric-literals","prefer-reflect","prefer-rest-params","prefer-spread","prefer-template","require-yield","symbol-description","import/no-unresolved","import/named","import/default","import/namespace","import/export","import/no-named-as-default","import/no-named-as-default-member","import/no-deprecated","import/no-extraneous-dependencies","import/no-mutable-exports","import/no-commonjs","import/no-amd","import/no-nodejs-modules","import/first","import/imports-first","import/no-duplicates","import/no-namespace","import/extensions","import/no-restricted-paths","import/no-absolute-path","import/no-dynamic-require","import/unambiguous","import/no-webpack-loader-syntax","import/no-unassigned-import","import/no-named-default","strict","react/display-name","react/forbid-prop-types","react/jsx-boolean-value","react/jsx-handler-names","react/jsx-key","react/jsx-no-duplicate-props","react/jsx-no-literals","react/jsx-no-undef","react/jsx-pascal-case","react/jsx-uses-react","react/jsx-uses-vars","react/no-danger","react/no-deprecated","react/no-direct-mutation-state","react/no-is-mounted","react/no-multi-comp","react/no-set-state","react/no-unknown-property","react/prefer-es6-class","react/prop-types","react/react-in-jsx-scope","react/require-extension","react/require-render-return","react/self-closing-comp","react/jsx-no-target-blank","react/jsx-filename-extension","react/jsx-no-comment-textnodes","react/no-comment-textnodes","react/no-render-return-value","react/require-optimization","react/forbid-component-props","react/no-danger-with-children","react/no-unused-prop-types","react/style-prop-object","react/no-children-prop","react/no-array-index-key","react/require-default-props"]
+
+const cli = new eslint.CLIEngine({
+  configFile: require.resolve('eslint-config-airbnb'),
+  useEslintrc: false
+})
+
+const config = cli.getConfigForFile(__filename)
+
+Object.keys(config.rules).forEach(function (key) {
+  const rule = config.rules[key]
+  const isError = ERROR_RULES.indexOf(key) > -1
+  const level = isError ? ERROR : WARN
+
+  if (Array.isArray(rule) && rule[0] !== OFF) {
+    rule[0] = level
+  } else if (typeof rule === 'string' && config.rules[key] !== OFF) {
+    config.rules[key] = level
+  }
+})
+
+module.exports = config
